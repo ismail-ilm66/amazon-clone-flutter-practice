@@ -1,5 +1,8 @@
+import 'package:amazon_clone/common/widgets/bottom_bar.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/features/auth/screens/auth_screen.dart';
+import 'package:amazon_clone/features/auth/services/auth_services.dart';
+import 'package:amazon_clone/features/home/screens/home_screen.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:amazon_clone/router.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +18,24 @@ void main() {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final AuthService authService = AuthService();
   // This widget is the root of your application.
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    authService.getUserData(context: context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,7 +52,9 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: const AuthScreen(),
+      home: Provider.of<UserProvider>(context).user.token.isNotEmpty
+          ? const BottomBar()
+          : const AuthScreen(),
     );
   }
 }

@@ -13,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context).user;
+    final user = Provider.of<UserProvider>(context, listen: false).user;
     return Scaffold(
       body: Center(
         child: Text(
