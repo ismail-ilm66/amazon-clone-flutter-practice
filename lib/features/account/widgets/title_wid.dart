@@ -9,17 +9,22 @@ class TitleCont extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
-    print(user.name);
+
     return Container(
       decoration: const BoxDecoration(
         gradient: GlobalVariables.appBarGradient,
       ),
-      width: double.infinity,
-      height: 30,
-      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-      child: const Row(
+      //   height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      margin: const EdgeInsets.all(0),
+      padding: const EdgeInsets.only(
+        left: 10,
+        right: 10,
+        bottom: 10,
+      ),
+      child: Row(
         children: [
-          Text(
+          const Text(
             'Hello, ',
             style: TextStyle(
               fontSize: 22,
@@ -27,8 +32,9 @@ class TitleCont extends StatelessWidget {
             ),
           ),
           Text(
-            'jaskfj',
-            style: TextStyle(
+            user.name,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
               fontSize: 22,
               color: Colors.black,
             ),
