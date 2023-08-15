@@ -1,6 +1,8 @@
-import 'package:amazon_clone/providers/user_provider.dart';
+import 'package:amazon_clone/features/home/widgets/address_contaiener.dart';
+import 'package:amazon_clone/features/home/widgets/carousel_slider.dart';
+import 'package:amazon_clone/features/home/widgets/deal_of_the_day.dart';
+import 'package:amazon_clone/features/home/widgets/top_categories.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../../constants/global_variables.dart';
 
@@ -15,7 +17,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context, listen: false).user;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
@@ -59,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         contentPadding: const EdgeInsets.only(top: 10),
                         prefixIcon: InkWell(
                           onTap: () {},
-                          child: Icon(Icons.search),
+                          child: const Icon(Icons.search),
                         ),
                       ),
                     ),
@@ -67,10 +68,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.only(left: 10),
                 height: 42,
                 color: Colors.transparent,
-                child: Icon(
+                child: const Icon(
                   Icons.mic,
                 ),
               ),
@@ -78,9 +79,23 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: Center(
-        child: Text(
-          user.toJson(),
+      body: const SingleChildScrollView(
+        child: Column(
+          children: [
+            AdressBar(),
+            SizedBox(
+              height: 10,
+            ),
+            TopCategories(),
+            SizedBox(
+              height: 10,
+            ),
+            CarouselImage(),
+            SizedBox(
+              height: 10,
+            ),
+            DealOfDay(),
+          ],
         ),
       ),
     );

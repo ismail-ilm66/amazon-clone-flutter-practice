@@ -107,7 +107,7 @@ class AuthService {
           'x-auth-token': token!,
         },
       );
-
+      print(tokenResponse.body);
       final res = jsonDecode(tokenResponse.body);
       print(res);
       if (res == true) {

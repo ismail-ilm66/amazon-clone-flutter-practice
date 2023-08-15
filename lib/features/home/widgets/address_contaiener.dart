@@ -10,7 +10,7 @@ class AdressBar extends StatelessWidget {
     final user = Provider.of<UserProvider>(context).user;
     return Container(
         height: 40,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
               Color.fromARGB(255, 114, 226, 221),
@@ -20,8 +20,25 @@ class AdressBar extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(Icons.location_on_outlined),
-            Text('Delivery to ${user.name} - ${user.address}'),
+            const Padding(
+              padding: EdgeInsets.only(
+                left: 8.0,
+                right: 5,
+              ),
+              child: Icon(
+                Icons.location_on_outlined,
+              ),
+            ),
+            Expanded(
+                child: Text(
+              'Delivery to ${user.name} - ${user.address}',
+              style: const TextStyle(fontWeight: FontWeight.w600),
+              overflow: TextOverflow.ellipsis,
+            )),
+            const Padding(
+              padding: EdgeInsets.only(right: 4.0),
+              child: Icon(Icons.arrow_drop_down),
+            ),
           ],
         ));
   }
