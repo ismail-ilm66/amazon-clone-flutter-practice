@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:amazon_clone/constants/errorHandle.dart';
@@ -51,6 +52,7 @@ class AdminServices {
         },
         body: product.toJson(),
       );
+      // ignore: use_build_context_synchronously
       httpErrorHandle(
           response: res,
           context: context,
@@ -61,5 +63,40 @@ class AdminServices {
     } catch (e) {
       showSnackBar(context, e.toString());
     }
+  }
+
+  Future<List<Product>> fetchProducts(BuildContext context) async {
+    final user = Provider.of<UserProvider>(context, listen: false).user;
+    List<Product> productsList = [];
+
+    try {
+      final res = await http.get(
+        Uri.parse('$uri/admin/getProducts'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': user.token,
+        },
+      );
+
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          for (int i = 0; i < jsonDecode(res.body).length; i++) {
+            productsList.add(
+              Product.fromJson(
+                jsonEncode(
+                  jsonDecode(res.body)[i],
+                ),
+              ),
+            );
+          }
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+    return productsList;
   }
 }

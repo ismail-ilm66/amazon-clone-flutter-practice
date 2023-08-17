@@ -6,7 +6,7 @@ class Product {
   final double price;
   final double quantitiy;
   final String category;
-  final List<String> imagesUrl;
+  final List<dynamic> imagesUrl;
   final String? id;
 
   Product({
@@ -35,12 +35,15 @@ class Product {
     return Product(
       name: map['name'],
       description: map['description'],
-      price: map['price'],
-      quantitiy: map['quantity'],
+      price: double.parse(map['price'].toString()),
+      quantitiy: double.parse(map['quantity'].toString()),
       category: map['category'],
       imagesUrl: map['imagesUrl'],
       id: map['_id'],
     );
   }
   String toJson() => json.encode(toMap());
+
+  factory Product.fromJson(String source) =>
+      Product.fromMap(json.decode(source));
 }

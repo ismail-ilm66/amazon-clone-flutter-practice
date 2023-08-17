@@ -21,7 +21,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final TextEditingController _descController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
-
+  bool isAdding = false;
   final formKey = GlobalKey<FormState>();
 
   final AdminServices adminServices = AdminServices();
@@ -46,6 +46,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   void AddProduct() {
     if (formKey.currentState!.validate() && images.isNotEmpty) {
+      setState(() {
+        isAdding = true;
+      });
       adminServices.sellProduct(
         context: context,
         name: _pnameController.text,
@@ -55,6 +58,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
         category: category,
         images: images,
       );
+      setState(() {
+        isAdding = false;
+      });
     }
   }
 
@@ -213,7 +219,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                CustomButton(onTap: AddProduct, label: 'Sell'),
+                isAdding
+                    ? const CircularProgressIndicator()
+                    : CustomButton(onTap: AddProduct, label: 'Sell'),
                 const SizedBox(
                   height: 10,
                 ),
