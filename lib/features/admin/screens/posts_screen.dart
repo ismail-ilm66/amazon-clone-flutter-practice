@@ -45,13 +45,13 @@ class _PostsScreenState extends State<PostsScreen> {
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
             floatingActionButton: FloatingActionButton(
-              child: const Icon(Icons.add),
               onPressed: gotoAddProdScreen,
               backgroundColor: Colors.cyan[300],
               tooltip: 'Add Product',
+              child: const Icon(Icons.add),
             ),
             body: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   mainAxisSpacing: 2,
                   crossAxisSpacing: 15,
                   crossAxisCount: 2,
@@ -61,7 +61,7 @@ class _PostsScreenState extends State<PostsScreen> {
                   final productData = productsList![index];
                   return Column(
                     children: [
-                      Container(
+                      SizedBox(
                         height: 140,
                         //width: 150,
                         child:
@@ -81,7 +81,9 @@ class _PostsScreenState extends State<PostsScreen> {
                                 //maxLines: 2,
                               ),
                             ),
-                            Icon(Icons.delete)
+                            IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.delete))
                           ],
                         ),
                       )

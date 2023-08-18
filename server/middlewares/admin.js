@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
-const addProduct = (req , res , next)=>
+const admin = (req , res , next)=>
 {
 try
 {
@@ -25,4 +25,5 @@ catch(e)
 }
 }
 
-module.exports = addProduct;
+
+module.exports = admin;

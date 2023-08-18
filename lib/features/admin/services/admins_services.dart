@@ -22,7 +22,6 @@ class AdminServices {
     required List<File> images,
   }) async {
     final user = Provider.of<UserProvider>(context, listen: false).user;
-
     try {
       final cloudinary = CloudinaryPublic('dyrizo3rz', 'ojgxj1gk');
       List<String> imageUrls = [];
@@ -65,6 +64,8 @@ class AdminServices {
     }
   }
 
+//Method to fetch All the Products for the Admin
+
   Future<List<Product>> fetchProducts(BuildContext context) async {
     final user = Provider.of<UserProvider>(context, listen: false).user;
     List<Product> productsList = [];
@@ -98,5 +99,39 @@ class AdminServices {
       showSnackBar(context, e.toString());
     }
     return productsList;
+  }
+
+  //Method to Delete The Product
+
+  void deleteProduct({
+    required BuildContext context,
+    required Product product,
+    required VoidCallback onSuccess,
+  }) async {
+    final user = Provider.of<UserProvider>(context, listen: false).user;
+
+    try {
+      final response = await http.post(
+        Uri.parse(
+          '$uri/admin/deleteProduct',
+        ),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': user.token,
+        },
+        body: {'id': product.id},
+      );
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+        response: response,
+        context: context,
+        onSuccess: () {
+          showSnackBar(context, 'Product Deleted Successfully!!');
+        },
+      );
+    } catch (e) {
+      // ignore: use_build_context_synchronously
+      showSnackBar(context, e.toString());
+    }
   }
 }
