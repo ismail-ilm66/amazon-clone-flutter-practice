@@ -1,6 +1,8 @@
 import 'package:amazon_clone/common/widgets/loadingBar.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/features/home/widgets/address_contaiener.dart';
 import 'package:amazon_clone/features/search/services/search_services.dart';
+import 'package:amazon_clone/features/search/widgets/searched_product.dart';
 import 'package:amazon_clone/models/product.dart';
 import 'package:flutter/material.dart';
 
@@ -32,73 +34,86 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: AppBar(
-          elevation: 0,
-          backgroundColor: GlobalVariables.selectedNavBarColor,
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: GlobalVariables.appBarGradient,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(60),
+          child: AppBar(
+            elevation: 0,
+            backgroundColor: GlobalVariables.selectedNavBarColor,
+            flexibleSpace: Container(
+              decoration: const BoxDecoration(
+                gradient: GlobalVariables.appBarGradient,
+              ),
             ),
-          ),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Container(
-                  height: 42,
-                  margin: const EdgeInsets.only(left: 15),
-                  child: Material(
-                    borderRadius: BorderRadius.circular(7),
-                    elevation: 1,
-                    child: TextFormField(
-                      //   onFieldSubmitted: gotoSearchScreen,
-                      decoration: InputDecoration(
-                        hintText: 'Search Amazon.in',
-                        // labelText: 'Search Amazon.in',
-                        labelStyle: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                        ),
-                        fillColor: Colors.white,
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(7),
-                          borderSide: BorderSide.none,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(7),
-                          borderSide: const BorderSide(
-                            color: Colors.black38,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Container(
+                    height: 42,
+                    margin: const EdgeInsets.only(left: 15),
+                    child: Material(
+                      borderRadius: BorderRadius.circular(7),
+                      elevation: 1,
+                      child: TextFormField(
+                        //   onFieldSubmitted: gotoSearchScreen,
+                        decoration: InputDecoration(
+                          hintText: 'Search Amazon.in',
+                          // labelText: 'Search Amazon.in',
+                          labelStyle: const TextStyle(
+                            fontWeight: FontWeight.w500,
                           ),
-                        ),
-                        contentPadding: const EdgeInsets.only(top: 10),
-                        prefixIcon: InkWell(
-                          onTap: () {},
-                          child: const Icon(Icons.search),
+                          fillColor: Colors.white,
+                          filled: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(7),
+                            borderSide: BorderSide.none,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(7),
+                            borderSide: const BorderSide(
+                              color: Colors.black38,
+                            ),
+                          ),
+                          contentPadding: const EdgeInsets.only(top: 10),
+                          prefixIcon: InkWell(
+                            onTap: () {},
+                            child: const Icon(Icons.search),
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.only(left: 10),
-                height: 42,
-                color: Colors.transparent,
-                child: const Icon(
-                  Icons.mic,
+                Container(
+                  padding: const EdgeInsets.only(left: 10),
+                  height: 42,
+                  color: Colors.transparent,
+                  child: const Icon(
+                    Icons.mic,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-      body: products == null
-          ? const LoadingBarWidget()
-          : Center(
-              child: Text(widget.query),
-            ),
-    );
+        body: products == null
+            ? const LoadingBarWidget()
+            : Column(
+                children: [
+                  const AdressBar(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Expanded(
+                      child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      return SearchedProduct(
+                        product: products![index],
+                      );
+                    },
+                    itemCount: products?.length,
+                  ))
+                ],
+              ));
   }
 }
