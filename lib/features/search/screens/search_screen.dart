@@ -20,7 +20,7 @@ class _SearchScreenState extends State<SearchScreen> {
   List<Product>? products;
   void getProducts() async {
     products = await searchServices.getSearchedProducts(context, widget.query);
-    print(products);
+
     setState(() {});
   }
 
