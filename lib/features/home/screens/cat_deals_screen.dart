@@ -100,13 +100,13 @@ class _CategoryDealsState extends State<CategoryDeals> {
                                   ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.only(
+                                  padding: const EdgeInsets.only(
                                       top: 5, right: 15, left: 0),
                                   alignment: Alignment.topLeft,
                                   child: Text(productData.name,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold)),
                                 )
                               ],

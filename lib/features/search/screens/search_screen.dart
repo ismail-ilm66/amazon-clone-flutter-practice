@@ -1,23 +1,32 @@
-import 'package:amazon_clone/features/home/widgets/address_contaiener.dart';
-import 'package:amazon_clone/features/home/widgets/carousel_slider.dart';
-import 'package:amazon_clone/features/home/widgets/deal_of_the_day.dart';
-import 'package:amazon_clone/features/home/widgets/top_categories.dart';
-import 'package:amazon_clone/features/search/screens/search_screen.dart';
+import 'package:amazon_clone/common/widgets/loadingBar.dart';
+import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/features/search/services/search_services.dart';
+import 'package:amazon_clone/models/product.dart';
 import 'package:flutter/material.dart';
 
-import '../../../constants/global_variables.dart';
-
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-  static const routeName = '/home-screen';
+class SearchScreen extends StatefulWidget {
+  static const routeName = '/search-screen';
+  final String query;
+  const SearchScreen({super.key, required this.query});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  void gotoSearchScreen(String query) {
-    Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
+class _SearchScreenState extends State<SearchScreen> {
+  final SearchServices searchServices = SearchServices();
+  List<Product>? products;
+  void getProducts() async {
+    products = await searchServices.getSearchedProducts(context, widget.query);
+    print(products);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getProducts();
   }
 
   @override
@@ -44,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(7),
                     elevation: 1,
                     child: TextFormField(
-                      onFieldSubmitted: gotoSearchScreen,
+                      //   onFieldSubmitted: gotoSearchScreen,
                       decoration: InputDecoration(
                         hintText: 'Search Amazon.in',
                         // labelText: 'Search Amazon.in',
@@ -85,25 +94,11 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: const SingleChildScrollView(
-        child: Column(
-          children: [
-            AdressBar(),
-            SizedBox(
-              height: 10,
+      body: products == null
+          ? const LoadingBarWidget()
+          : Center(
+              child: Text(widget.query),
             ),
-            TopCategories(),
-            SizedBox(
-              height: 10,
-            ),
-            CarouselImage(),
-            SizedBox(
-              height: 10,
-            ),
-            DealOfDay(),
-          ],
-        ),
-      ),
     );
   }
 }
