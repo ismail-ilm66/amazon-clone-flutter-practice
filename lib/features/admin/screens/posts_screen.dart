@@ -44,8 +44,9 @@ class _PostsScreenState extends State<PostsScreen> {
         product: product,
         onSuccess: () {
           productsList!.remove(product);
+          showSnackBar(context, 'The Product Has been Deleted Successfully');
+          setState(() {});
         });
-    showSnackBar(context, 'The Product Has been Deleted Successfully');
   }
 
   @override
@@ -79,7 +80,7 @@ class _PostsScreenState extends State<PostsScreen> {
                             SingleProduct(imageUrl: productData.imagesUrl[0]),
                       ),
                       Container(
-                        padding: EdgeInsets.only(left: 10),
+                        padding: const EdgeInsets.only(left: 10),
                         //height: 40,
                         // color: Colors.amber, //
                         child: Row(
