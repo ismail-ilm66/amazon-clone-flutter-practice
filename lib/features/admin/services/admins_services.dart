@@ -119,15 +119,13 @@ class AdminServices {
           'Content-Type': 'application/json; charset=UTF-8',
           'x-auth-token': user.token,
         },
-        body: {'id': product.id},
+        body: jsonEncode({'id': product.id}),
       );
       // ignore: use_build_context_synchronously
       httpErrorHandle(
         response: response,
         context: context,
-        onSuccess: () {
-          showSnackBar(context, 'Product Deleted Successfully!!');
-        },
+        onSuccess: onSuccess,
       );
     } catch (e) {
       // ignore: use_build_context_synchronously

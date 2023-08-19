@@ -4,7 +4,7 @@ const Product = require("../models/product");
 const admin = require("../middlewares/admin");
 const adminRouter = express.Router();
 
-adminRouter.post("/admin/addProduct" , addProduct , async (req , res) => 
+adminRouter.post("/admin/addProduct" , admin , async (req , res) => 
 {
     try {
         const {name , description , imagesUrl , price , quantity , category , } = req.body;
@@ -37,7 +37,7 @@ adminRouter.post("/admin/deleteProduct"  ,admin  ,async (req, res) =>
     try {
         const {id}  = req.body;
         let product = await Product.findByIdAndDelete(id);
-        product = await product.save();
+        
         res.json(product);
         
     } catch (error) {

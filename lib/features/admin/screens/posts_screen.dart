@@ -1,4 +1,5 @@
 import 'package:amazon_clone/common/widgets/loadingBar.dart';
+import 'package:amazon_clone/constants/utils..dart';
 import 'package:amazon_clone/features/admin/screens/add_product_screen.dart';
 import 'package:amazon_clone/features/admin/services/admins_services.dart';
 import 'package:amazon_clone/models/product.dart';
@@ -37,6 +38,16 @@ class _PostsScreenState extends State<PostsScreen> {
     setState(() {});
   }
 
+  void deleteProduct(Product product) {
+    adminServices.deleteProduct(
+        context: context,
+        product: product,
+        onSuccess: () {
+          productsList!.remove(product);
+        });
+    showSnackBar(context, 'The Product Has been Deleted Successfully');
+  }
+
   @override
   Widget build(BuildContext context) {
     return productsList == null
@@ -68,8 +79,7 @@ class _PostsScreenState extends State<PostsScreen> {
                             SingleProduct(imageUrl: productData.imagesUrl[0]),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 10),
+                        padding: EdgeInsets.only(left: 10),
                         //height: 40,
                         // color: Colors.amber, //
                         child: Row(
@@ -81,9 +91,13 @@ class _PostsScreenState extends State<PostsScreen> {
                                 //maxLines: 2,
                               ),
                             ),
-                            IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.delete))
+                            Expanded(
+                              child: IconButton(
+                                  onPressed: () {
+                                    deleteProduct(productsList![index]);
+                                  },
+                                  icon: const Icon(Icons.delete)),
+                            )
                           ],
                         ),
                       )
