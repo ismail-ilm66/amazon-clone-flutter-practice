@@ -1,6 +1,7 @@
 import 'package:amazon_clone/common/widgets/loadingBar.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/features/home/services/home_services.dart';
+import 'package:amazon_clone/features/product_detail/screen/product_details_screen.dart';
 import 'package:amazon_clone/models/product.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +22,10 @@ class _CategoryDealsState extends State<CategoryDeals> {
     productsList =
         await homeServices.getCategoryProducts(context, widget.category);
     setState(() {});
+  }
+
+  void gotoDetailsScreen(Product product) {
+    Navigator.pushNamed(context, ProductDetails.routeName, arguments: product);
   }
 
   @override
@@ -83,33 +88,38 @@ class _CategoryDealsState extends State<CategoryDeals> {
                           itemCount: productsList!.length,
                           itemBuilder: (context, index) {
                             final productData = productsList![index];
-                            return Column(
-                              children: [
-                                SizedBox(
-                                  height: 130,
-                                  child: DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.black12, width: 0.5),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: Image.network(
-                                          productData.imagesUrl[0]),
+                            return GestureDetector(
+                              onTap: () {
+                                gotoDetailsScreen(productData);
+                              },
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 130,
+                                    child: DecoratedBox(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.black12, width: 0.5),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Image.network(
+                                            productData.imagesUrl[0]),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.only(
-                                      top: 5, right: 15, left: 0),
-                                  alignment: Alignment.topLeft,
-                                  child: Text(productData.name,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                )
-                              ],
+                                  Container(
+                                    padding: const EdgeInsets.only(
+                                        top: 5, right: 15, left: 0),
+                                    alignment: Alignment.topLeft,
+                                    child: Text(productData.name,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                  )
+                                ],
+                              ),
                             );
                           },
                         ),

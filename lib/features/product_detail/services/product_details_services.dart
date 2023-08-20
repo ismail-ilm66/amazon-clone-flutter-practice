@@ -26,6 +26,7 @@ class ProductDetailsServices {
           {'id': product.id, 'rating': rating},
         ),
       );
+      print(res.body);
 
       // ignore: use_build_context_synchronously
       httpErrorHandle(response: res, context: context, onSuccess: () {});

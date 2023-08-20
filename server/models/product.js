@@ -1,45 +1,40 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const ratingSchema = require("./rating");
 
-const productSchema  = mongoose.Schema  (
+const productSchema = mongoose.Schema({
+  name: {
+    required: true,
+    type: String,
+    trim: true,
+  },
+  description: {
+    required: true,
+    type: String,
+    trim: true,
+  },
+
+  imagesUrl: [
     {
-        name :
-        {
-            require: true , 
-            type: String , 
-            trim : true,
-        },
-        description :
-        {
-            require: true , 
-            type: String , 
-            trim : true,
-        },
+      required: true,
+      type: String,
+    },
+  ],
 
-        imagesUrl:[
-            {
-             require: true , 
-             type: String ,
-            }
-        ],
-        
-        quantity :
-        {
-            require: true , 
-            type: Number , 
-        },
-        price :
-        {
-            require: true , 
-            type: Number , 
-        },
-        category :
-        {
-            require: true , 
-            type: String , 
-            trim : true,
-        },
-       
-    }
-    );
-    const Product = mongoose.model('Product' , productSchema);
-    module.exports = Product;
+  quantity: {
+    required: true,
+    type: Number,
+  },
+  price: {
+    required: true,
+    type: Number,
+  },
+  category: {
+    required: true,
+    type: String,
+    trim: true,
+  },
+
+  ratings: [ratingSchema],
+});
+const Product = mongoose.model("Product", productSchema);
+module.exports = Product;

@@ -1,6 +1,7 @@
 import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/common/widgets/ratings_bar.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/features/product_detail/services/product_details_services.dart';
 import 'package:amazon_clone/models/product.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,9 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+  final ProductDetailsServices productDetailsServices =
+      ProductDetailsServices();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -217,7 +221,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                     color: GlobalVariables.secondaryColor,
                   );
                 },
-                onRatingUpdate: (val) {}),
+                onRatingUpdate: (val) {
+                  productDetailsServices.rateProduct(
+                      context: context, product: widget.product, rating: val);
+                }),
             const SizedBox(
               height: 15,
             ),
