@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:amazon_clone/common/widgets/loadingBar.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/features/home/services/home_services.dart';
@@ -24,8 +26,10 @@ class _CategoryDealsState extends State<CategoryDeals> {
     setState(() {});
   }
 
-  void gotoDetailsScreen(Product product) {
-    Navigator.pushNamed(context, ProductDetails.routeName, arguments: product);
+  void gotoDetailsScreen(Product product) async {
+    await Navigator.pushNamed(context, ProductDetails.routeName,
+        arguments: product);
+    setState(() {});
   }
 
   @override
@@ -37,6 +41,8 @@ class _CategoryDealsState extends State<CategoryDeals> {
 
   @override
   Widget build(BuildContext context) {
+    getProducts();
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),

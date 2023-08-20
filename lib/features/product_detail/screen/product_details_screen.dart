@@ -3,9 +3,11 @@ import 'package:amazon_clone/common/widgets/ratings_bar.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/features/product_detail/services/product_details_services.dart';
 import 'package:amazon_clone/models/product.dart';
+import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetails extends StatefulWidget {
   static const routeName = '/product-details-screen';
@@ -19,6 +21,29 @@ class ProductDetails extends StatefulWidget {
 class _ProductDetailsState extends State<ProductDetails> {
   final ProductDetailsServices productDetailsServices =
       ProductDetailsServices();
+  double avgRating = 0;
+  double myRating = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    double totalRating = 0;
+    if (widget.product.rating != null) {
+      for (int i = 0; i < widget.product.rating!.length; i++) {
+        totalRating += widget.product.rating![i].rating;
+        if (widget.product.rating![i].userId ==
+            Provider.of<UserProvider>(context, listen: false).user.id) {
+          myRating = widget.product.rating![i].rating;
+        }
+      }
+      avgRating = totalRating / widget.product.rating!.length;
+    }
+    print('Avg Ratings:$avgRating ');
+    print('My Ratings:$myRating ');
+
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -204,13 +229,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                 right: 10.0,
               ),
               alignment: Alignment.topLeft,
-              child: Text(
+              child: const Text(
                 'Rate The Product',
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
               ),
             ),
             RatingBar.builder(
+                initialRating: myRating != 0 ? myRating : avgRating,
                 maxRating: 5,
                 minRating: 1,
                 allowHalfRating: true,
