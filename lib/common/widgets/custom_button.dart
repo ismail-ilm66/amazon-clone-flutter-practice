@@ -3,8 +3,15 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   final VoidCallback onTap;
+  final Color? buttonColor;
+  final Color? textColor;
   final String label;
-  const CustomButton({super.key, required this.onTap, required this.label});
+  const CustomButton(
+      {super.key,
+      required this.onTap,
+      required this.label,
+      this.buttonColor,
+      this.textColor});
 
   @override
   Widget build(BuildContext context) {
@@ -12,10 +19,13 @@ class CustomButton extends StatelessWidget {
       onPressed: onTap,
       style: ElevatedButton.styleFrom(
         foregroundColor: GlobalVariables.backgroundColor,
-        backgroundColor: GlobalVariables.secondaryColor,
+        backgroundColor: buttonColor ?? GlobalVariables.secondaryColor,
         minimumSize: const Size(double.infinity, 50),
       ),
-      child: Text(label),
+      child: Text(
+        label,
+        style: TextStyle(color: textColor ?? Colors.white),
+      ),
     );
   }
 }
