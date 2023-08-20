@@ -1,18 +1,36 @@
 import 'package:amazon_clone/common/widgets/ratings_bar.dart';
 import 'package:amazon_clone/features/product_detail/screen/product_details_screen.dart';
 import 'package:amazon_clone/models/product.dart';
+import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class SearchedProduct extends StatelessWidget {
   final Product product;
-  const SearchedProduct({super.key, required this.product});
+  SearchedProduct({super.key, required this.product});
 
   void gotoDetailsScreen(BuildContext context) {
     Navigator.pushNamed(context, ProductDetails.routeName, arguments: product);
   }
 
+  double avgRating = 0;
+  double myRating = 0;
   @override
   Widget build(BuildContext context) {
+    double totalRating = 0;
+
+    if (product.rating!.isNotEmpty) {
+      print('in if condition');
+      for (int i = 0; i < product.rating!.length; i++) {
+        totalRating += product.rating![i].rating;
+        if (product.rating![i].userId ==
+            Provider.of<UserProvider>(context, listen: false).user.id) {
+          myRating = product.rating![i].rating;
+        }
+      }
+      avgRating = totalRating / product.rating!.length;
+    }
     return GestureDetector(
       onTap: () {
         gotoDetailsScreen(context);
@@ -41,14 +59,17 @@ class SearchedProduct extends StatelessWidget {
                 Container(
                   width: 235,
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: const RatingsBarWidget(rating: 2.5),
+                  child: RatingsBarWidget(
+                    rating: myRating != 0 ? myRating : avgRating,
+                  ),
                 ),
                 Container(
                   width: 235,
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
                     '\$${product.price}',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 20),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),

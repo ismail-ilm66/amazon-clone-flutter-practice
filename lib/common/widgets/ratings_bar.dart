@@ -9,6 +9,7 @@ class RatingsBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RatingBarIndicator(
+      rating: rating,
       itemBuilder: (context, index) {
         return const Icon(
           Icons.star,
@@ -16,7 +17,6 @@ class RatingsBarWidget extends StatelessWidget {
         );
       },
       itemCount: 5,
-      rating: rating,
       itemSize: 15,
       direction: Axis.horizontal,
     );

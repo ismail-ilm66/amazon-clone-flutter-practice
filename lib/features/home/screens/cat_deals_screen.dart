@@ -23,20 +23,19 @@ class _CategoryDealsState extends State<CategoryDeals> {
   void getProducts() async {
     productsList =
         await homeServices.getCategoryProducts(context, widget.category);
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   void gotoDetailsScreen(Product product) async {
-    await Navigator.pushNamed(context, ProductDetails.routeName,
-        arguments: product);
-    setState(() {});
+    Navigator.pushNamed(context, ProductDetails.routeName, arguments: product);
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getProducts();
   }
 
   @override

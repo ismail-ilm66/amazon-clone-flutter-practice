@@ -39,9 +39,6 @@ class _ProductDetailsState extends State<ProductDetails> {
       }
       avgRating = totalRating / widget.product.rating!.length;
     }
-    print('Avg Ratings:$avgRating ');
-    print('My Ratings:$myRating ');
-
     setState(() {});
   }
 
