@@ -1,5 +1,7 @@
 import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/features/address/screens/address_screen.dart';
+import 'package:amazon_clone/features/admin/screens/add_product_screen.dart';
 import 'package:amazon_clone/features/cart/widgets/cart_produts.dart';
 import 'package:amazon_clone/features/cart/widgets/cart_subtotal.dart';
 import 'package:amazon_clone/features/home/widgets/address_contaiener.dart';
@@ -11,8 +13,11 @@ import 'package:provider/provider.dart';
 class CartPage extends StatelessWidget {
   static const routeName = '/cart-page';
   CartPage({super.key});
-
   late int items;
+
+  void gotoAddressScreen(BuildContext context) {
+    Navigator.pushNamed(context, AddressScreen.routeName);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +101,9 @@ class CartPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: CustomButton(
-              onTap: () {},
+              onTap: () {
+                gotoAddressScreen(context);
+              },
               label: 'Proceed To Buy($items $i)',
               buttonColor: Colors.amber[400],
               textColor: Colors.black,

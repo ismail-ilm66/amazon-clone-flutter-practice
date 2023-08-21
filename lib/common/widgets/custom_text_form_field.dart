@@ -4,11 +4,14 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final int maxLines;
-  const CustomTextField(
-      {super.key,
-      required this.controller,
-      required this.hintText,
-      this.maxLines = 1});
+  final Color? borderColor;
+  const CustomTextField({
+    super.key,
+    required this.controller,
+    required this.hintText,
+    this.maxLines = 1,
+    this.borderColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +26,10 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
         label: Text(hintText),
-        border: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black26),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: borderColor == null ? Colors.black26 : borderColor!,
+          ),
         ),
       ),
     );
