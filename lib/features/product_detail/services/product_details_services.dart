@@ -65,4 +65,33 @@ class ProductDetailsServices {
       showSnackBar(context, e.toString());
     }
   }
+
+  void deleteFromCart({
+    required BuildContext context,
+    required Product product,
+  }) async {
+    final user = Provider.of<UserProvider>(context, listen: false).user;
+    try {
+      final res = await http.delete(
+        Uri.parse('$uri/api/delete-from-cart/${product.id}'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': user.token,
+        },
+      );
+      print(res.body);
+
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            User u = user.copywith(cart: jsonDecode(res.body)['cart']);
+            Provider.of<UserProvider>(context, listen: false).updateUser(u);
+            showSnackBar(context, 'Product Deleted From Cart');
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
 }

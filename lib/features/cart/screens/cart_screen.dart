@@ -17,7 +17,7 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String i = 'Items';
-    final user = Provider.of<UserProvider>(context, listen: false).user;
+    final user = Provider.of<UserProvider>(context, listen: true).user;
     final items = user.cart.length;
     if (items == 1) {
       i = 'Item';

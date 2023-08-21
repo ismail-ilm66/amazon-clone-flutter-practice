@@ -1,4 +1,3 @@
-import 'package:amazon_clone/features/product_detail/screen/product_details_screen.dart';
 import 'package:amazon_clone/features/product_detail/services/product_details_services.dart';
 import 'package:amazon_clone/models/product.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
@@ -19,6 +18,10 @@ class _CartProductsState extends State<CartProducts> {
 
   void increaseCartQuantity(Product product) {
     productDetailsServices.addToCart(context: context, product: product);
+  }
+
+  void decreaseCartQuantity(Product product) {
+    productDetailsServices.deleteFromCart(context: context, product: product);
   }
 
   @override
@@ -89,18 +92,23 @@ class _CartProductsState extends State<CartProducts> {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                Container(
-                  height: 35,
-                  width: 32,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1.5, color: Colors.black12),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(5),
-                      bottomLeft: Radius.circular(5),
+                InkWell(
+                  onTap: () {
+                    decreaseCartQuantity(product);
+                  },
+                  child: Container(
+                    height: 35,
+                    width: 32,
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 1.5, color: Colors.black12),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(5),
+                        bottomLeft: Radius.circular(5),
+                      ),
+                      color: const Color.fromARGB(66, 75, 73, 73),
                     ),
-                    color: const Color.fromARGB(66, 75, 73, 73),
+                    child: const Icon(Icons.remove, size: 19),
                   ),
-                  child: const Icon(Icons.remove, size: 19),
                 ),
                 Container(
                   alignment: Alignment.center,
@@ -116,7 +124,8 @@ class _CartProductsState extends State<CartProducts> {
                   ),
                   child: Text(
                     totalItems.toString(),
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                 ),
                 InkWell(
