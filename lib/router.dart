@@ -1,6 +1,7 @@
 import 'package:amazon_clone/common/widgets/bottom_bar.dart';
 import 'package:amazon_clone/features/admin/screens/add_product_screen.dart';
 import 'package:amazon_clone/features/auth/screens/auth_screen.dart';
+import 'package:amazon_clone/features/cart/screens/cart_screen.dart';
 import 'package:amazon_clone/features/home/screens/cat_deals_screen.dart';
 import 'package:amazon_clone/features/home/screens/home_screen.dart';
 import 'package:amazon_clone/features/product_detail/screen/product_details_screen.dart';
@@ -57,6 +58,13 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         builder: (_) => ProductDetails(product: product),
         settings: routeSettings,
       );
+
+    case CartPage.routeName:
+      return MaterialPageRoute(
+        builder: (_) => const CartPage(),
+        settings: routeSettings,
+      );
+
     default:
       return MaterialPageRoute(builder: (_) {
         return const Scaffold(

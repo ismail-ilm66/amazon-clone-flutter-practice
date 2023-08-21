@@ -4,6 +4,7 @@ import 'package:amazon_clone/constants/errorHandle.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/constants/utils..dart';
 import 'package:amazon_clone/models/product.dart';
+import 'package:amazon_clone/models/user_model.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -50,9 +51,15 @@ class ProductDetailsServices {
           {'id': product.id},
         ),
       );
-      print(res.body);
+
       // ignore: use_build_context_synchronously
-      httpErrorHandle(response: res, context: context, onSuccess: () {});
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            User u = user.copywith(cart: jsonDecode(res.body)['cart']);
+            Provider.of<UserProvider>(context, listen: false).updateUser(u);
+          });
     } catch (e) {
       showSnackBar(context, e.toString());
     }
