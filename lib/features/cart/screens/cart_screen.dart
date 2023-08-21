@@ -1,5 +1,6 @@
 import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/features/cart/widgets/cart_produts.dart';
 import 'package:amazon_clone/features/cart/widgets/cart_subtotal.dart';
 import 'package:amazon_clone/features/home/widgets/address_contaiener.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
@@ -107,6 +108,15 @@ class CartPage extends StatelessWidget {
           Container(
             height: 5,
             color: Colors.black12,
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                return CartProducts(index: index);
+              },
+              itemCount: user.cart.length,
+              shrinkWrap: true,
+            ),
           )
         ],
       ),

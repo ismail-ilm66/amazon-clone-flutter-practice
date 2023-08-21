@@ -59,6 +59,7 @@ class ProductDetailsServices {
           onSuccess: () {
             User u = user.copywith(cart: jsonDecode(res.body)['cart']);
             Provider.of<UserProvider>(context, listen: false).updateUser(u);
+            showSnackBar(context, 'Product Added To Cart');
           });
     } catch (e) {
       showSnackBar(context, e.toString());
