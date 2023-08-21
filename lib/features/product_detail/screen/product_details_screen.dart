@@ -179,9 +179,10 @@ class _ProductDetailsState extends State<ProductDetails> {
               alignment: Alignment.topLeft,
               padding: EdgeInsets.all(5.0),
               child: Text(
-                  textAlign: TextAlign.justify,
-                  style: TextStyle(fontSize: 15),
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce efficitur tellus et placerat mollis. Vivamus euismod ut dui quis ultrices. Ut venenatis sodales molestie. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus felis nunc, efficitur nec pretium placerat, pharetra ut tellus. Praesent mollis eget quam ut posuere. Praesent non finibus ex. Integer blandit nisi et elementum congue. Sed mauris odio, semper quis neque consequat, porta luctus elit. Donec dapibus rutrum rhoncus.'),
+                widget.product.description,
+                textAlign: TextAlign.justify,
+                style: TextStyle(fontSize: 15),
+              ),
             ),
             Container(
               height: 5,
