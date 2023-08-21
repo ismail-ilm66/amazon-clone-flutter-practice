@@ -7,8 +7,8 @@ const userRouter = express.Router();
 userRouter.post("/api/add-to-cart", auth, async (req, res) => {
   try {
     const { id } = req.body;
-    let product = Product.findById(id);
-    let user = User.findById(req.userId);
+    let product = await Product.findById(id);
+    let user = await User.findById(req.userId);
 
     if (user.cart.length == 0) {
       user.cart.push({ product, quantity: 1 });
@@ -22,8 +22,8 @@ userRouter.post("/api/add-to-cart", auth, async (req, res) => {
       }
 
       if (prodFound) {
-        let p = user.cart.find((prod) => prod._id == product._id);
-        p.quantity += 1;
+        let p = user.cart.find((prod) => prod.product._id.equals(product._id));
+        p.quantity = p.quantity + 1;
       } else {
         user.cart.push({ product, quantity: 1 });
       }

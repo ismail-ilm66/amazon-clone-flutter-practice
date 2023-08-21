@@ -42,6 +42,10 @@ class _ProductDetailsState extends State<ProductDetails> {
     setState(() {});
   }
 
+  void addToCart() {
+    productDetailsServices.addToCart(context: context, product: widget.product);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -207,7 +211,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 right: 10.0,
               ),
               child: CustomButton(
-                onTap: () {},
+                onTap: addToCart,
                 label: 'Add to Cart',
                 buttonColor: Colors.amber[400],
                 textColor: Colors.black,

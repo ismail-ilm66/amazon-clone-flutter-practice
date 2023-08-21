@@ -33,4 +33,28 @@ class ProductDetailsServices {
       showSnackBar(context, e.toString());
     }
   }
+
+  void addToCart({
+    required BuildContext context,
+    required Product product,
+  }) async {
+    final user = Provider.of<UserProvider>(context, listen: false).user;
+    try {
+      final res = await http.post(
+        Uri.parse('$uri/api/add-to-cart'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': user.token,
+        },
+        body: jsonEncode(
+          {'id': product.id},
+        ),
+      );
+      print(res.body);
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(response: res, context: context, onSuccess: () {});
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
 }
