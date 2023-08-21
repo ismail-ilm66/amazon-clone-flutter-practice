@@ -61,7 +61,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
 
     case CartPage.routeName:
       return MaterialPageRoute(
-        builder: (_) => const CartPage(),
+        builder: (_) => CartPage(),
         settings: routeSettings,
       );
 

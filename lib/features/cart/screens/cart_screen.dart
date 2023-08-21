@@ -1,19 +1,27 @@
+import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/features/cart/widgets/cart_subtotal.dart';
 import 'package:amazon_clone/features/home/widgets/address_contaiener.dart';
+import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class CartPage extends StatefulWidget {
+// ignore: must_be_immutable
+class CartPage extends StatelessWidget {
   static const routeName = '/cart-page';
-  const CartPage({super.key});
+  CartPage({super.key});
 
-  @override
-  State<CartPage> createState() => _CartPageState();
-}
+  late int items;
 
-class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
+    String i = 'Items';
+    final user = Provider.of<UserProvider>(context, listen: false).user;
+    final items = user.cart.length;
+    if (items == 1) {
+      i = 'Item';
+    }
+    print(items);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
@@ -77,10 +85,31 @@ class _CartPageState extends State<CartPage> {
           ),
         ),
       ),
-      body: Column(children: [
-        const AdressBar(),
-        CartSubtotal(),
-      ]),
+      body: Column(
+        children: [
+          const AdressBar(),
+          CartSubtotal(),
+          const SizedBox(
+            height: 15,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: CustomButton(
+              onTap: () {},
+              label: 'Proceed To Buy($items $i)',
+              buttonColor: Colors.amber[400],
+              textColor: Colors.black,
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          Container(
+            height: 5,
+            color: Colors.black12,
+          )
+        ],
+      ),
     );
   }
 }

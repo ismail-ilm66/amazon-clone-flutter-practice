@@ -22,7 +22,7 @@ class _BottomBarState extends State<BottomBar> {
   List<Widget> pages = [
     const HomeScreen(),
     const AccountScreen(),
-    const CartPage(),
+    CartPage(),
   ];
   @override
   Widget build(BuildContext context) {
