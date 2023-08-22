@@ -15,17 +15,24 @@ class CartPage extends StatelessWidget {
   CartPage({super.key});
   late int items;
 
-  void gotoAddressScreen(BuildContext context) {
-    Navigator.pushNamed(context, AddressScreen.routeName);
+  void gotoAddressScreen(BuildContext context, String sum) {
+    Navigator.pushNamed(context, AddressScreen.routeName, arguments: sum);
   }
 
   @override
   Widget build(BuildContext context) {
+    double subtotal = 0.0;
+
     String i = 'Items';
     final user = Provider.of<UserProvider>(context, listen: true).user;
     final items = user.cart.length;
     if (items == 1) {
       i = 'Item';
+    }
+    final cartItems = user.cart;
+    for (int i = 0; i < cartItems.length; i++) {
+      subtotal += double.parse(cartItems[i]['product']['price'].toString()) *
+          double.parse(cartItems[0]['quantity'].toString());
     }
     print(items);
     return Scaffold(
@@ -102,7 +109,7 @@ class CartPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: CustomButton(
               onTap: () {
-                gotoAddressScreen(context);
+                gotoAddressScreen(context, subtotal.toString());
               },
               label: 'Proceed To Buy($items $i)',
               buttonColor: Colors.amber[400],

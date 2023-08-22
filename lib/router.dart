@@ -67,8 +67,12 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       );
 
     case AddressScreen.routeName:
+      String sum = routeSettings.arguments as String;
+
       return MaterialPageRoute(
-        builder: (_) => const AddressScreen(),
+        builder: (_) => AddressScreen(
+          sum: sum,
+        ),
         settings: routeSettings,
       );
 

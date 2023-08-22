@@ -1,12 +1,16 @@
 import 'package:amazon_clone/common/widgets/custom_text_form_field.dart';
+import 'package:amazon_clone/common/widgets/loadingBar.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/constants/utils..dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:pay/pay.dart';
 import 'package:provider/provider.dart';
 
 class AddressScreen extends StatefulWidget {
   static const routeName = '/adress-screen';
-  const AddressScreen({super.key});
+  final String sum;
+  const AddressScreen({super.key, required this.sum});
 
   @override
   State<AddressScreen> createState() => _AddressScreenState();
@@ -19,6 +23,42 @@ class _AddressScreenState extends State<AddressScreen> {
   final TextEditingController streetController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  List<PaymentItem> googlePayItems = [];
+  String addressToBeUsed = '';
+
+  void onGooglePayResult(res) {}
+
+  void payPressed(String addressFromProvider) {
+    addressToBeUsed = "";
+    bool isForm = houseNoController.text.isNotEmpty ||
+        codeController.text.isNotEmpty ||
+        cityController.text.isNotEmpty ||
+        streetController.text.isNotEmpty;
+
+    if (isForm) {
+      if (_formKey.currentState!.validate()) {
+      } else {
+        throw Exception('Please Enter all the values');
+      }
+    } else if (addressFromProvider.isNotEmpty) {
+      addressToBeUsed = addressFromProvider;
+    } else {
+      showSnackBar(context, 'Error');
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    googlePayItems.add(
+      PaymentItem(
+          amount: widget.sum,
+          label: 'Total Amount',
+          status: PaymentItemStatus.final_price),
+    );
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -120,6 +160,20 @@ class _AddressScreenState extends State<AddressScreen> {
                   borderColor: Colors.black12,
                   controller: cityController,
                   hintText: 'Town / City',
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                GooglePayButton(
+                  onPressed: () => payPressed(address),
+                  width: double.infinity,
+                  type: GooglePayButtonType.buy,
+                  height: 50,
+                  loadingIndicator: const LoadingBarWidget(),
+                  margin: EdgeInsets.only(top: 10),
+                  paymentConfigurationAsset: 'gpay.json',
+                  onPaymentResult: onGooglePayResult,
+                  paymentItems: googlePayItems,
                 )
               ],
             ),
