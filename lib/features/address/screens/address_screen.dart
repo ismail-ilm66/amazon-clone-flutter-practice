@@ -75,7 +75,7 @@ class _AddressScreenState extends State<AddressScreen> {
   @override
   Widget build(BuildContext context) {
     var address = context.watch<UserProvider>().user.address;
-    address = '101 fake city';
+    // address = '101 fake city';
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
