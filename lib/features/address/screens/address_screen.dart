@@ -37,6 +37,8 @@ class _AddressScreenState extends State<AddressScreen> {
 
     if (isForm) {
       if (_formKey.currentState!.validate()) {
+        addressToBeUsed =
+            "${houseNoController.text},${streetController.text}-${codeController.text},${cityController.text}";
       } else {
         throw Exception('Please Enter all the values');
       }
@@ -45,6 +47,7 @@ class _AddressScreenState extends State<AddressScreen> {
     } else {
       showSnackBar(context, 'Error');
     }
+    print(addressToBeUsed);
   }
 
   @override

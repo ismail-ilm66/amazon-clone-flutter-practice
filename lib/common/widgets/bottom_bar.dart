@@ -24,7 +24,7 @@ class _BottomBarState extends State<BottomBar> {
     const AccountScreen(),
     CartPage(),
   ];
-  void x() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
