@@ -2,6 +2,7 @@ import 'package:amazon_clone/common/widgets/custom_text_form_field.dart';
 import 'package:amazon_clone/common/widgets/loadingBar.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/constants/utils..dart';
+import 'package:amazon_clone/features/address/services/address_services.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:pay/pay.dart';
@@ -25,8 +26,21 @@ class _AddressScreenState extends State<AddressScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   List<PaymentItem> googlePayItems = [];
   String addressToBeUsed = '';
+  AddressServices addressServices = AddressServices();
 
-  void onGooglePayResult(res) {}
+  void onGooglePayResult(res) {
+    if (Provider.of<UserProvider>(context, listen: false)
+        .user
+        .address
+        .isEmpty) {
+      addressServices.saveAddress(context: context, address: addressToBeUsed);
+    }
+
+    addressServices.placeOrder(
+        context: context,
+        address: addressToBeUsed,
+        totalPrice: double.parse(widget.sum));
+  }
 
   void payPressed(String addressFromProvider) {
     addressToBeUsed = "";
@@ -38,7 +52,7 @@ class _AddressScreenState extends State<AddressScreen> {
     if (isForm) {
       if (_formKey.currentState!.validate()) {
         addressToBeUsed =
-            "${houseNoController.text},${streetController.text}-${codeController.text},${cityController.text}";
+            "${houseNoController.text},${streetController.text},${cityController.text}-${codeController.text}";
       } else {
         throw Exception('Please Enter all the values');
       }
@@ -47,7 +61,6 @@ class _AddressScreenState extends State<AddressScreen> {
     } else {
       showSnackBar(context, 'Error');
     }
-    print(addressToBeUsed);
   }
 
   @override

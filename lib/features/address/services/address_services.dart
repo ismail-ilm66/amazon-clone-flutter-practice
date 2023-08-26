@@ -11,14 +11,14 @@ import 'package:provider/provider.dart';
 
 class AddressServices {
   void saveAddress(
-      {required BuildContext context, required String Address}) async {
+      {required BuildContext context, required String address}) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-
+    print(address);
     try {
       final res = await http.post(
         Uri.parse('$uri/api/add-user-address'),
         body: jsonEncode(
-          {'address': Address},
+          {'address': address},
         ),
         headers: <String, String>{
           'x-auth-token': userProvider.user.token,
@@ -32,6 +32,43 @@ class AddressServices {
         onSuccess: () async {
           User u = userProvider.user
               .copywith(address: jsonDecode(res.body)['address']);
+          userProvider.updateUser(u);
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  void placeOrder({
+    required BuildContext context,
+    required String address,
+    required double totalPrice,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+    try {
+      final res = await http.post(
+        Uri.parse('$uri/api/add-user-address'),
+        body: jsonEncode(
+          {
+            'cart': userProvider.user.cart,
+            'totalPrice': totalPrice,
+            'address': address
+          },
+        ),
+        headers: <String, String>{
+          'x-auth-token': userProvider.user.token,
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () async {
+          showSnackBar(context, 'The Order Has Been Placed Successfully!!');
+          User u = userProvider.user.copywith(cart: []);
           userProvider.updateUser(u);
         },
       );

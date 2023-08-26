@@ -5,6 +5,8 @@ const User = require("../models/user");
 const Order = require("../models/order");
 const userRouter = express.Router();
 
+// Function to add the Items to the Cart
+
 userRouter.post("/api/add-to-cart", auth, async (req, res) => {
   try {
     const { id } = req.body;
@@ -36,6 +38,8 @@ userRouter.post("/api/add-to-cart", auth, async (req, res) => {
   }
 });
 
+// To Delete Items From The Cart
+
 userRouter.delete("/api/delete-from-cart/:id", auth, async (req, res) => {
   try {
     const { id } = req.params;
@@ -59,10 +63,11 @@ userRouter.delete("/api/delete-from-cart/:id", auth, async (req, res) => {
   }
 });
 
+//Method To Add User Address
 userRouter.post("/api/add-user-address", auth, async (req, res) => {
   try {
     const { address } = req.body;
-    let user = findById(req.userId);
+    let user = await User.findById(req.userId);
     user.address = address;
     user = await user.save();
     res.json(user);
@@ -70,6 +75,8 @@ userRouter.post("/api/add-user-address", auth, async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+//Method to get the user Orders
 userRouter.post("/api/order", auth, async (req, res) => {
   try {
     const { cart, totalPrice, address } = req.body;
@@ -88,7 +95,7 @@ userRouter.post("/api/order", auth, async (req, res) => {
       const user = await User.findById(req.userId);
 
       user.cart = [];
-      user = await user.save();
+      await user.save();
 
       let order = new Order({
         products,
@@ -102,6 +109,15 @@ userRouter.post("/api/order", auth, async (req, res) => {
     }
 
     res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+userRouter.get("/api/order/me", auth, async (req, res) => {
+  try {
+    let orders = Order.find({ userId: req.userId });
+    res.json(orders);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
