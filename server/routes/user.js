@@ -91,24 +91,21 @@ userRouter.post("/api/order", auth, async (req, res) => {
           .status(400)
           .json({ msg: `${product.name} is Out Of Order!!` });
       }
-
-      const user = await User.findById(req.userId);
-
-      user.cart = [];
-      await user.save();
-
-      let order = new Order({
-        products,
-        totalPrice,
-        address,
-        userId: req.userId,
-        orderedAt: new Date().getMilliseconds(),
-      });
-      order = await order.save();
-      res.json(order);
     }
+    let user = await User.findById(req.userId);
 
-    res.json(user);
+    user.cart = [];
+    user = await user.save();
+
+    let order = new Order({
+      products,
+      totalPrice,
+      address,
+      userId: req.userId,
+      orderedAt: new Date().getTime(),
+    });
+    order = await order.save();
+    res.json(order);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -116,7 +113,7 @@ userRouter.post("/api/order", auth, async (req, res) => {
 
 userRouter.get("/api/order/me", auth, async (req, res) => {
   try {
-    let orders = Order.find({ userId: req.userId });
+    let orders = await Order.find({ userId: req.userId });
     res.json(orders);
   } catch (error) {
     res.status(500).json({ error: error.message });

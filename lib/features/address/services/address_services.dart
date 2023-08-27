@@ -46,10 +46,11 @@ class AddressServices {
     required double totalPrice,
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-
+    print(address);
+    print(totalPrice);
     try {
       final res = await http.post(
-        Uri.parse('$uri/api/add-user-address'),
+        Uri.parse('$uri/api/order'),
         body: jsonEncode(
           {
             'cart': userProvider.user.cart,
@@ -67,6 +68,7 @@ class AddressServices {
         response: res,
         context: context,
         onSuccess: () async {
+          print(res.body);
           showSnackBar(context, 'The Order Has Been Placed Successfully!!');
           User u = userProvider.user.copywith(cart: []);
           userProvider.updateUser(u);

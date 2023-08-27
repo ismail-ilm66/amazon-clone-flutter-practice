@@ -33,6 +33,11 @@ class Order {
   }
 
   factory Order.fromMap(Map<String, dynamic> map) {
+    List<int> x = [];
+    for (int i = 0; i < map['products'].length; i++) {
+      x.add(map['products'][i]['quantity']);
+    }
+    print(x);
     return Order(
       id: map['_id'],
       products: List<Product>.from(
@@ -42,11 +47,12 @@ class Order {
           ),
         ),
       ),
-      quantity: List<int>.from(map['products']?.map((y) => y['quantitiy'])),
+      //quantity: List<int>.from(map['products']?.map((y) => y['quantitiy'])),
+      quantity: x,
       address: map['address'],
       userId: map['userId'],
       orderedAt: map['orderedAt'],
-      status: map['status'],
+      status: map['staus'],
     );
   }
 

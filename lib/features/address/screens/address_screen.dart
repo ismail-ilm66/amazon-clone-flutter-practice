@@ -35,11 +35,6 @@ class _AddressScreenState extends State<AddressScreen> {
         .isEmpty) {
       addressServices.saveAddress(context: context, address: addressToBeUsed);
     }
-
-    addressServices.placeOrder(
-        context: context,
-        address: addressToBeUsed,
-        totalPrice: double.parse(widget.sum));
   }
 
   void payPressed(String addressFromProvider) {
@@ -61,6 +56,10 @@ class _AddressScreenState extends State<AddressScreen> {
     } else {
       showSnackBar(context, 'Error');
     }
+    addressServices.placeOrder(
+        context: context,
+        address: addressToBeUsed,
+        totalPrice: double.parse(widget.sum));
   }
 
   @override
