@@ -10,9 +10,11 @@ class Order {
   final String userId;
   final int orderedAt;
   final int status;
+  final double totalPrice;
 
   Order(
       {required this.id,
+      required this.totalPrice,
       required this.products,
       required this.quantity,
       required this.address,
@@ -29,6 +31,7 @@ class Order {
       'userId': userId,
       'orderedAt': orderedAt,
       'status': status,
+      'totalPrice': totalPrice
     };
   }
 
@@ -47,12 +50,14 @@ class Order {
           ),
         ),
       ),
+
       //quantity: List<int>.from(map['products']?.map((y) => y['quantitiy'])),
       quantity: x,
       address: map['address'],
       userId: map['userId'],
       orderedAt: map['orderedAt'],
       status: map['staus'],
+      totalPrice: double.parse(map['totalPrice'].toString()),
     );
   }
 
