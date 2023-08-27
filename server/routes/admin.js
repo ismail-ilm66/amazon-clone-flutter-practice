@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const { Product } = require("../models/product");
 const admin = require("../middlewares/admin");
 const adminRouter = express.Router();
+const Order = require("../models/order");
 
 adminRouter.post("/admin/addProduct", admin, async (req, res) => {
   try {
@@ -39,6 +40,27 @@ adminRouter.post("/admin/deleteProduct", admin, async (req, res) => {
     let product = await Product.findByIdAndDelete(id);
 
     res.json(product);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+adminRouter.get("/admin/getOrders", admin, async (req, res) => {
+  try {
+    const orders = await Order.find({});
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+adminRouter.post("/admin/change-order-status", admin, async (req, res) => {
+  try {
+    const { id, status } = req.body;
+    let order = await Order.findById(id);
+    order.staus = status;
+    order = await order.save();
+    res.json(order);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

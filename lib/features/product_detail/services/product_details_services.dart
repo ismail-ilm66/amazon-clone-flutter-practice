@@ -79,7 +79,6 @@ class ProductDetailsServices {
           'x-auth-token': user.token,
         },
       );
-      print(res.body);
 
       // ignore: use_build_context_synchronously
       httpErrorHandle(

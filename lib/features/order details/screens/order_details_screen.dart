@@ -1,8 +1,12 @@
+import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/features/admin/services/admins_services.dart';
 import 'package:amazon_clone/features/search/screens/search_screen.dart';
 import 'package:amazon_clone/models/order.dart';
+import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class OrderDetailsScreen extends StatefulWidget {
   final Order order;
@@ -15,8 +19,18 @@ class OrderDetailsScreen extends StatefulWidget {
 
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   int currentStep = 0;
+  final AdminServices adminServices = AdminServices();
   void gotoSearchScreen(String query) {
     Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
+  }
+
+  void updateStep() {
+    if (currentStep <= 4) {
+      currentStep += 1;
+      setState(() {});
+    } else {
+      return;
+    }
   }
 
   @override
@@ -28,6 +42,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
@@ -219,13 +234,25 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 child: Stepper(
                   currentStep: currentStep,
                   controlsBuilder: (context, details) {
+                    if (user.type == 'admin') {
+                      return CustomButton(
+                          onTap: () {
+                            adminServices.changeOrderStatus(
+                              context: context,
+                              order: widget.order,
+                              status: currentStep + 1,
+                              onSuccess: updateStep,
+                            );
+                          },
+                          label: 'Continue');
+                    }
                     return const SizedBox();
                   },
                   steps: [
                     Step(
                       title: const Text('Pending'),
                       content: const Text('Your Order Is Yet to Deliver'),
-                      isActive: currentStep >= 0,
+                      isActive: currentStep > 0,
                       state: currentStep >= 0
                           ? StepState.complete
                           : StepState.indexed,

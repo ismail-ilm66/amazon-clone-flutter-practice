@@ -40,7 +40,7 @@ class Order {
     for (int i = 0; i < map['products'].length; i++) {
       x.add(map['products'][i]['quantity']);
     }
-    print(x);
+
     return Order(
       id: map['_id'],
       products: List<Product>.from(
