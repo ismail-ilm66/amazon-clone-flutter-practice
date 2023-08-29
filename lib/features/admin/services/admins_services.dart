@@ -6,6 +6,7 @@ import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/constants/utils..dart';
 import 'package:amazon_clone/models/order.dart';
 import 'package:amazon_clone/models/product.dart';
+import 'package:amazon_clone/models/sales.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
@@ -204,5 +205,45 @@ class AdminServices {
       // ignore: use_build_context_synchronously
       showSnackBar(context, e.toString());
     }
+  }
+
+  Future<Map<String, dynamic>> getAnalytiics(BuildContext context) async {
+    final user = Provider.of<UserProvider>(context, listen: false).user;
+    List sales = [];
+    int totalEarnings = 0;
+    try {
+      final res = await http.get(
+        Uri.parse('$uri/admin/get-all-Earnings'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': user.token,
+        },
+      );
+
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          final response = jsonDecode(res.body);
+          print(response);
+          totalEarnings = response['totalEarnings'];
+          sales = [
+            Sales(label: 'Mobile', earnings: response['mobileEarnings'] ?? 0),
+            Sales(
+                label: 'Essentials',
+                earnings: response['essentialsEarnings'] ?? 0),
+            Sales(
+                label: 'Appliances',
+                earnings: response['appliancesEarnings'] ?? 0),
+            Sales(label: 'Book', earnings: response['bookEarnings'] ?? 0),
+            Sales(label: 'Fashion', earnings: response['fashionEarnings'] ?? 0),
+          ];
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+    return {'totalEarnings': totalEarnings, 'sales': sales};
   }
 }
