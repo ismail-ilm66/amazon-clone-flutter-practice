@@ -8,8 +8,8 @@ const userRouter = require("./routes/user");
 
 const PORT = 3000;
 const app = express();
-const DB =
-  "mongodb+srv://ilm68265:Ilm5232513123.@cluster0.qrsjpjw.mongodb.net/?retryWrites=true&w=majority";
+// Add the Mongoose database link to link your project to the cluster you created
+const DB = "";
 
 app.use(express.json());
 app.use(authRouter);
@@ -29,7 +29,7 @@ mongoose
 app.get("/hello-world", function (req, res) {
   res.json({ hi: "Hello World" });
 });
-//192.168.10.2
+
 app.listen(PORT, "0.0.0.0", () => {
   console.log("Connected at Port " + PORT);
 });
