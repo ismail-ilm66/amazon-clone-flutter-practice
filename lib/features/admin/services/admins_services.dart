@@ -25,7 +25,8 @@ class AdminServices {
   }) async {
     final user = Provider.of<UserProvider>(context, listen: false).user;
     try {
-      final cloudinary = CloudinaryPublic('dyrizo3rz', 'ojgxj1gk');
+      //here re write the cloud name and upload preset of the Cloudinary Id you've created
+      final cloudinary = CloudinaryPublic('', '');
       List<String> imageUrls = [];
       for (int i = 0; i < images.length; i++) {
         CloudinaryResponse res = await cloudinary.uploadFile(

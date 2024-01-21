@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Add Your Ip address here and also the port number which you declared in the server folder
 String uri = 'http://192.168.10.5:3000';
 
 class GlobalVariables {
